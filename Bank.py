@@ -44,7 +44,7 @@ def admin_user_name():
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Customer Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #================ Customer NIC check Function =================
-def NIC_Customer(): 
+def NIC_Customer(NIC): 
     global NIC   
     if len(NIC) == 12 and NIC.isdigit():
         if NIC not in Customer_Details:
@@ -56,6 +56,7 @@ def NIC_Customer():
 
 # ============== Deposite Initialamount Function ==============
 def inital_deposit(Initial_amount):
+    global Balance 
     if Initial_amount >= 1000:
         Balance += Initial_amount
         print(f"Your Balance is:Rs.{Balance}")
@@ -137,13 +138,12 @@ def Admin():
                 print()
 
 
-                Admin_Details = {"NIC": {"Full_Name":Full_Name,"NIC":NIC,"User_Name":Admin_User_Name,"user_password":User_Password}}
+                Admin_Details[NIC] =  {"Full_Name":Full_Name,"NIC":NIC,"User_Name":Admin_User_Name,"user_password":User_Password}
 
 
 #===== Admin Details Save Function =====
                 def Save_Admin_Details(Admin_Details):
                     with open("Admin_Details","a") as Admin:
-                        #Admin.write("Full Name \t NIC \t User Name \t User Password \n")
                         Admin.write(f"{Full_Name} \t {NIC} \t {Admin_User_Name} \t {User_Password} \n")
 
                 Save_Admin_Details(Admin_Details)
@@ -217,8 +217,7 @@ def Admin():
 
 #========= Customer Details Save =============
                 with open("Customer_Details","a") as Admin:
-                    #Admin.write(f"Full_Name \t NIC \t User_Password \t acc_num \t Address \n")
-                    Admin.write(f"{Full_Name} \t {NIC} \t {User_Password} \t {acc_num} \t {Address}")
+                    Admin.write(f"{Full_Name} \t {NIC} \t {User_Password} \t {acc_num} \t {Address} \n")
 
 
 
@@ -246,7 +245,7 @@ def Admin():
 def Customer_System():
     try:
         while True:
-            Login_System(Login_System)
+            Login_System()
 
             choose = int(input("Enter The Number:"))
 
