@@ -63,8 +63,7 @@ def inital_deposit(amount):
 
     else:
         print("Above ammount 1000")
-        return Balance
-    return Initial_amount
+        
 
 
 
@@ -72,8 +71,8 @@ def inital_deposit(amount):
 def Withdraw_Money(withdraw):
     global balance 
     if Withdraw <= Balance: 
-        Balance -= Withdraw
-        print(f"Balance is:Rs.{Balance}")
+        Balance -= Withdraw_Amount
+        print(f"Withdraw Successful. Your Balance is:Rs.{Balance}")
         print()
 
     else:
@@ -83,12 +82,9 @@ def Withdraw_Money(withdraw):
 
 #=============== Deposit Function ===============
 def Deposit_Money(deposit):
-    global Balance 
-    Balance += Deposit
-    print(f"Balance is:Rs.{Balance}")
-    print()
-
-
+    global Balance
+    Balance += Deposit Amount 
+    print(f"Deposit successful. Your Balance is: Rs.{Balance}")
 
 
 
@@ -214,7 +210,7 @@ def Admin():
                         
                 account_number()    
                 
-                Customer_Details[NIC] = {"NIC": {"Name":Customer_Full_Name,"NIC":NIC,"Address":Address,"Age":Age,"Account_Number":acc_num ,"User_Password":User_Password}}  #User_Name:Customer_User_Name
+                Customer_Details[NIC] =  {"Name":Customer_Full_Name,"NIC":NIC,"Address":Address,"Age":Age,"Account_Number":acc_num ,"User_Password":User_Password,"User_Name":Customer_User_Name,"Balance": Balance}
 
 
 #========= Customer Details Save =============
@@ -299,17 +295,21 @@ def Customer_System():
 
                 choose=int(input("Enter (1-4): "))
 
-                if choose==1:
-                    print(f"Balance is:Rs.{Balance}")
+                if choose == 1:
+                    print(f"Your Balance is:Rs.{Balance}")
                     print()
 
-                elif choose==2: 
-                    Withdraw = int(input("Enter Your Amount:Rs."))
-                    Withdraw_Money()
+                elif choose == 2: 
+                    Withdraw_Amount= int(input("Enter Your Amount:Rs."))
+                    Withdraw_Money(Withdraw_Amount)
 
-                elif choose==3:  
-                    Deposit = int(input("Enter Your Amount:Rs."))
-                    Deposit_Money()
+                elif choose == 3:  
+                    Deposit_Amount= int(input("Enter Your Amount:Rs."))
+                    Deposit_Money(Deposit_Amount)
+
+                elif choose == 4:
+                   pass
+
 
                 elif choose == 5:
                     Input_NIC=input("Enter Your NIC:")
@@ -322,11 +322,11 @@ def Customer_System():
                             print("Plese Enter Your Correct NIC Number.")
                     NIC_Customer(NIC)
 
-                elif choose==6:
+                elif choose == 6:
                     exit()
 
-    except ValueError:
-            print("Enter Number Only!")
+    except ValueError :
+            print("Enter Number Only! ")
 
 
 
@@ -339,36 +339,36 @@ Login_Customer_User = {"Customer" : "12345"}
 
 
 #=============== Login Function ===============
-def Login():
-    Input_Login_User_Name = input("Enter The Login User Name:")
-    Input_Login_User_Password = input("Enter The Login User Password:")
+def Login() :
+    Input_Login_User_Name = input("Enter The Login User Name: ")
+    Input_Login_User_Password = input("Enter The Login User Password: ")
 
 
 
     if Input_Login_User_Name in Login_Admin_User :
-        if Login_Admin_User [Input_Login_User_Name] == Input_Login_User_Password:
-            print("Welcom Admin.")
+        if Login_Admin_User [Input_Login_User_Name] == Input_Login_User_Password :
+            print("Welcom Admin. ")
             print()
             Admin()
             return True
         else:
-            print("Please Try Again. Incorrect Password.")
+            print("Please Try Again. Incorrect Password. ")
             return False
             
 
 
     elif Input_Login_User_Name in Login_Customer_User :
-        if Login_Customer_User [Input_Login_User_Name] == Input_Login_User_Password:
-            print("Welcom Customer.")
+        if Login_Customer_User [Input_Login_User_Name] == Input_Login_User_Password :
+            print("Welcom Customer. ")
             print()
             Customer_System()
             return True
         else:
-            print("Please Try Again. Incorrect Password.")
+            print("Please Try Again. Incorrect Password. ")
             return False
 
     else:
-        print("Please Try Again. Incorrect User Name.")
+        print("Please Try Again. Incorrect User Name. ")
         print()
         return False
 
