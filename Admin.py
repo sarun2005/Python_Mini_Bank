@@ -26,12 +26,11 @@ def Login():
     if Input_Login_User_Name in Login_Admin_User :
         if Login_Admin_User [Input_Login_User_Name] == Input_Login_User_Password:
             print("Welcom Admin.")
-            Admin()
             print()
+            Admin()
             return True
         else:
             print("Please Try Again. Incorrect Password.")
-            print()
             return False
             
 
@@ -41,17 +40,17 @@ def Login():
         if Login_Customer_User [Input_Login_User_Name] == Input_Login_User_Password:
             print("Welcom Customer.")
             Customer_System()
-            print()
             return True
         else:
             print("Please Try Again. Incorrect Password.")
-            print()
             return False
 
     else:
         print("Please Try Again. Incorrect User Name.")
         print()
         return False
+
+
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Admin Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -75,6 +74,8 @@ def Password(User_Password):
     else:
         print("Please Create Your 5 Digit Password:")
         return User_Password
+
+
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Customer Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -102,13 +103,27 @@ def inital_deposit(Initial_amount):
 
 
 
+#===== Withdraw Function =====
+def Withdraw_Money():
+    if Withdraw <= Balance: 
+        Balance -= Withdraw
+        print(f"Balance is:Rs.{Balance}")
+        print()
 
-while True:
-    Login()
-    break
-    
+    else:
+        print("Your amount not able to.Please try again")
+        print()
 
-def Login_System(Login_System):
+
+#===== Deposit Function =====
+def Deposit_Money():
+    Balance += Deposit
+    print(f"Balance is:Rs.{Balance}")
+    print()
+
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Sign up and Sign in Function +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++        
+def Login_System(Login_System):     
     print("Hello sir/meadam.")
     print("1.SIGN UP")               #=====New Account Admin/Customer create=====
     print("2.SIGN IN")               #=====Alredy create Admin/Customer account=====
@@ -117,12 +132,9 @@ def Login_System(Login_System):
 
 
 
-
     
-#===== Admin Login System =====
-
+#============================================================ Admin Login System ==============================================================
 def Admin():
-    print("Welcom Admin.")
     while True:
         try:
             Login_System(Login_System)
@@ -196,7 +208,7 @@ def Admin():
 
 
 
-    #===== Menu ======
+#================ Menu =================
             print()
             while True:
                 print("=== Admin Menu ===")
@@ -259,24 +271,21 @@ def Admin():
 
 
 
+while True:
+    Login()
+    break
+
+
+
 
 
 #=====================================================================================================================================================================================          
 #=========================================================================   Customer System   =======================================================================================
 #=====================================================================================================================================================================================
-
-
-
-#===== Customer Login System =====
-
-#===== Account Number Check =====
-        while True:
-            Login()
-            break
+        
 
 
 def Customer_System():
-    print("Welcom Customer.")
     while True:
         Login_System(Login_System)
 
@@ -319,63 +328,50 @@ def Customer_System():
                 print("Please Enter Your Correct Password.")
 
 
-        while True:
-            print("1.Check Balance")
-            print("2.Withdraw Money")
-            print("3.Deposit Money")
-            print("4.Transfer Money")
-            print("5.View Accounts")
-            print("6.Exit")
-            
+while True:
+    print("1.Check Balance")
+    print("2.Withdraw Money")
+    print("3.Deposit Money")
+    print("4.Transfer Money")
+    print("5.View Accounts")
+    print("6.Exit")
+    
 
-            choose=int(input("Enter (1-4): "))
+    choose=int(input("Enter (1-4): "))
 
-#===== Withdraw Function =====
-            def Withdraw_Money():
-                if Withdraw <= Balance: 
-                    Balance -= Withdraw
-                    print(f"Balance is:Rs.{Balance}")
-                    print()
+    if choose==1:
+        print(f"Balance is:Rs.{Balance}")
+        print()
 
-                else:
-                    print("Your amount not able to.Please try again")
-                    print()
+    elif choose==2: 
+        Withdraw = int(input("Enter Your Amount:Rs."))
+        Withdraw_Money()
 
+    elif choose==3:  
+        Deposit = int(input("Enter Your Amount:Rs."))
+        Deposit_Money()
 
-            #===== Deposit Function =====
-            def Deposit_Money():
-                Balance += Deposit
-                print(f"Balance is:Rs.{Balance}")
-                print()
-
-
-            if choose==1:
-                print(f"Balance is:Rs.{Balance}")
-                print()
-
-            elif choose==2: 
-                Withdraw = int(input("Enter Your Amount:Rs."))
-                Withdraw_Money()
-
-            elif choose==3:  
-                Deposit = int(input("Enter Your Amount:Rs."))
-                Deposit_Money()
-
-            elif choose == 5:
-                Input_NIC=input("Enter Your NIC:")
-                def NIC_Admin(NIC:str):
-                    if len(NIC) == 12 and NIC.isdigit():
-                        if NIC in Customer_Details:
-                            pass
-                        
-                    else:
-                        print("Plese Enter Your Correct NIC Number.")
-                NIC_Customer(NIC)
-
+    elif choose == 5:
+        Input_NIC=input("Enter Your NIC:")
+        def NIC_Admin(NIC:str):
+            if len(NIC) == 12 and NIC.isdigit():
+                if NIC in Customer_Details:
+                    pass
                 
+            else:
+                print("Plese Enter Your Correct NIC Number.")
+        
+        NIC_Customer()
 
-            elif choose==6:
-                exit()
+        
+
+    elif choose==6:
+        exit()
 
 
-            
+
+
+
+"""while True:
+    Login()
+    break       """   
