@@ -81,9 +81,9 @@ def Withdraw_Money(withdraw):
 
 
 #=============== Deposit Function ===============
-def Deposit_Money(deposit):
+def Deposit_Money(Deposit_Amount):
     global Balance
-    Balance += Deposit Amount 
+    Balance += Deposit_Amount 
     print(f"Deposit successful. Your Balance is: Rs.{Balance}")
 
 
