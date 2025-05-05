@@ -7,29 +7,29 @@ Balance=0
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Admin Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #===== Admin NIC check Function =====
+
 def NIC_Admin(NIC):
     if len(NIC) == 12 and NIC.isdigit():
-        if NIC not in Admin_Details:
-            pass
-        else:
-            print("Almost Your NIC input")   
-            return NIC    
+        if NIC in Admin_Details:
+            print("This NIC is already registered.")
+            return False
+        return True
     else:
-        print("Plese Enter Your Correct NIC Number.")
-
+        print("Please enter a valid 12-digit NIC number.")
+        return False
 
 
 #===== Password Check Function =====
 def Password(User_Password):
     if len(User_Password) == 5 and User_Password.isdigit():
-        pass
+        return True 
     else:
         print("Please Create Your 5 Digit Password:")
-        return User_Password
+        return False 
 
 
 #===== Admin User Name Craete =====
-def admin_user_name():
+def admin_user_name(Admin_User_Name):
     global Admin_User_Name 
     global Admin_Details 
     if Admin_User_Name not in Admin_Details:
@@ -55,7 +55,7 @@ def NIC_Customer(NIC):
 
 
 # ============== Deposite Initialamount Function ==============
-def inital_deposit(Initial_amount):
+def inital_deposit(amount):
     global Balance 
     if Initial_amount >= 1000:
         Balance += Initial_amount
@@ -69,8 +69,8 @@ def inital_deposit(Initial_amount):
 
 
 #================ Withdraw Function =================
-def Withdraw_Money():
-    global Withdraw
+def Withdraw_Money(withdraw):
+    global balance 
     if Withdraw <= Balance: 
         Balance -= Withdraw
         print(f"Balance is:Rs.{Balance}")
@@ -82,8 +82,8 @@ def Withdraw_Money():
 
 
 #=============== Deposit Function ===============
-def Deposit_Money():
-    global Deposit
+def Deposit_Money(deposit):
+    global Balance 
     Balance += Deposit
     print(f"Balance is:Rs.{Balance}")
     print()
@@ -93,7 +93,7 @@ def Deposit_Money():
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Sign up and Sign in Function +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-def Login_System(Login_System):     
+def Login_System():     
     print("Hello sir/meadam.")
     print("1.SIGN UP")               #=====New Account Admin/Customer create=====
     print("2.SIGN IN")               #=====Alredy create Admin/Customer account=====
@@ -110,7 +110,7 @@ def Login_System(Login_System):
 def Admin():
     while True:
         try:
-            Login_System(Login_System)
+            Login_System()
 
             select = int(input("Enter The Number:"))  
 
@@ -126,7 +126,7 @@ def Admin():
 #===== Admin User Name Craete =====
                 print()
                 Admin_User_Name = input("Create Your User Name:")
-                admin_user_name()
+                admin_user_name(Admin_User_Name)
                 
 
 
@@ -138,7 +138,7 @@ def Admin():
                 print()
 
 
-                Admin_Details[NIC] =  {"Full_Name":Full_Name,"NIC":NIC,"User_Name":Admin_User_Name,"user_password":User_Password}
+                Admin_Details[NIC] =  {"Full_Name":Full_Name,"User_Name":Admin_User_Name,"user_password":User_Password}
 
 
 #===== Admin Details Save Function =====
@@ -151,20 +151,22 @@ def Admin():
 
 
 #===== Admin User_Name and Password Check =====
-            if select == 2:
-                User_Name = input("Enter Your User Name:")
-                if Admin_Details["NIC"]["User_Name"] == User_Name:
-                    pass
-                else:
-                    print("Please Enter Your Correct User name.")
+            elif select == 2:
+               NIC = input("Enter your NIC: ")
+               if NIC not in Admin_Details:
+                    print("NIC not found.")
+                    continue
 
 
-                User_Password = int(input("Enter Your Password:"))
-                if Admin_Details["NIC"]["user_password"] == User_Password:
-                    pass
+                User_Name = input("Enter your username: ")
+                Password_Input = input("Enter your password: ")
+                
+                admin = Admin_Details[NIC]
+                if admin['User_Name'] == User_Name and admin['user_password'] == Password_Input:
+                    print("Login successful!")
                 else:
-                    print("Please Enter Your Correct Password.")
-                    
+                    print("Incorrect username or password.")
+                    continue
 
 
             if select == 3:
