@@ -2,8 +2,14 @@ Admin_Details = {}
 Customer_Details = {}
 Balance = 0
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Admin Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ===== Admin NIC check Function =====
+
+
+
+
+
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Admin Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ==================== Admin NIC check Function ====================
 def NIC_Admin(NIC):
     if len(NIC) == 12 and NIC.isdigit():
         if NIC in Admin_Details:
@@ -14,15 +20,9 @@ def NIC_Admin(NIC):
         print("Please enter a valid 12-digit NIC number.")
         return False
 
-# ===== Password Check Function =====
-def Password(User_Password):
-    if len(User_Password) == 5 and User_Password.isdigit():
-        return True
-    else:
-        print("Please Create Your 5 Digit Password:")
-        return False
 
-# ===== Admin User Name Create =====
+
+# ==================== Admin User Name Create Function ====================
 def admin_user_name(Admin_User_Name):
     if Admin_User_Name not in Admin_Details:
         return True
@@ -30,8 +30,18 @@ def admin_user_name(Admin_User_Name):
         print("This User Name is already registered.")
         return False
 
+
+# ==================== Admin User Password Create Function ====================
+def Password(User_Password):
+    if len(User_Password) == 5 and User_Password.isdigit():
+        return True
+    else:
+        print("Please Create Your 5 Digit Password:")
+        return False
+
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Customer Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ================ Customer NIC check Function =================
+# ==================== Customer NIC check Function ====================
 def NIC_Customer(NIC):
     if len(NIC) == 12 and NIC.isdigit():
         if NIC in Customer_Details:
@@ -43,8 +53,31 @@ def NIC_Customer(NIC):
         return False
 
 
+# ==================== Customer User Name Create Function ====================
+def customer_user_name(Customer_User_Name):
+    global Customer_Details
+    if Customer_User_Name not in Customer_Details:
+        return True
+    else:  
+        print("This User Name is already registered.")
+        return False 
 
-# ============== Deposit Initial amount Function ==============
+
+
+# ==================== Admin User Password Create Function ====================
+def Customer_Password(Customer_User_Password):
+    global Customer_Details
+    if len(Customer_User_Password) == 5 and Customer_User_Password.isdigit():
+        return True
+    else:
+        print("Please Create Your 5 Digit Password:")
+        return False
+
+
+
+
+
+# ==================== Deposit Initial Amount Function ====================
 def inital_deposit(Initial_amount):
     global Balance
     if Initial_amount >= 1000:
@@ -55,10 +88,12 @@ def inital_deposit(Initial_amount):
         print("Your Amount Must be Over Rs.1000.")
         return False
 
-# ================ Withdraw Function =================
+
+
+# ==================== Withdraw Function ====================
 def Withdraw_Money(Withdraw_Amount):
     global Balance
-    if Withdraw <= Balance:
+    if Withdraw_Amount <= Balance:
         Balance -= Withdraw_Amount
         print(f"Withdraw Successful. Your Balance is:Rs.{Balance}")
         print()
@@ -68,12 +103,16 @@ def Withdraw_Money(Withdraw_Amount):
         print()
         return False
 
-# =============== Deposit Function ===============
+
+
+# ==================== Deposit Function ====================
 def Deposit_Money(Deposit_Amount):
     global Balance
     Balance += Deposit_Amount
     print(f"Deposit successful. Your Balance is: Rs.{Balance}")
     return True
+
+
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Sign up and Sign in Function +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def Login_System():
@@ -82,6 +121,9 @@ def Login_System():
     print("2.SIGN IN")               # =====Already create Admin/Customer account=====
     print("3.Exit")
     print()
+
+
+
 
 # ====================================================================================================================================================================================
 # ==========================================================================   Admin System   ========================================================================================
@@ -96,18 +138,22 @@ def Admin():
             if select == 1:  
                 Full_Name = input("Enter Your Full Name:")
 
-                # ===== Admin NIC check Function =====
-                NIC = input("Enter Your NIC Number:")
-                if not NIC_Admin(NIC):
-                    continue
 
-                # ===== Admin User Name Create =====
+
+# ==================== Admin NIC check Function ====================
+                NIC = input("Enter Your NIC Number:")
+                NIC_Admin(NIC)
+                    
+
+
+# ==================== Admin User Name Create====================
                 print()
                 Admin_User_Name = input("Create Your User Name:")
-                if not admin_user_name(Admin_User_Name):
-                    continue
+                admin_user_name(Admin_User_Name)
 
-                # ===== Password Create =====
+
+
+# ==================== Password Create ====================
                 User_Password = input("Please Create Your 5 Digit Password:")
                 if not Password(User_Password):
                     continue
@@ -115,38 +161,36 @@ def Admin():
                 print(f"{Full_Name} Your Admin Account Successful Create.")  
                 print()  
 
-                Admin_Details[NIC] = {
-                    "Full_Name": Full_Name,
-                    "User_Name": Admin_User_Name,
-                    "user_password": User_Password
-                }
+                Admin_Details[NIC] = { "Full_Name": Full_Name, "User_Name": Admin_User_Name, "user_password": User_Password }
 
-                # ===== Admin Details Save Function =====
-                def Save_Admin_Details():
-                    with open("Admin_Details.txt", "a") as Admin_file:
-                        Admin_file.write(f"{Full_Name} \t {NIC} \t {Admin_User_Name} \t {User_Password} \n")
 
-                Save_Admin_Details()  
+
+# ==================== Admin Details Save Function ====================
+                with open("Admin_Details.txt", "a") as Admin_file:
+                    Admin_file.write(f"{Full_Name} \t {NIC} \t {Admin_User_Name} \t {User_Password} \n")
+
                 continue
 
-            # ===== Admin User_Name and Password Check =====
+
+
+#==================== Admin User_Name and Password Check ====================
             elif select == 2:
-                NIC = input("Enter your NIC: ")
-                if NIC not in Admin_Details:
-                    print("NIC not found.")
-                    continue
+                NIC = input("Please Enter your NIC:")
+                User_Name = input("Enter Your User Name:") 
+                User_Password = input("Enter Your Password:")   
+                
+                if NIC in Admin_Details:
+                    if Admin_Details[NIC]["User_Name"] != User_Name and Admin_Details[NIC]["User_Password"] != User_Password:  
+                        print("Please Enter Your Correct User Name and User Password.")  
+                    else:
+                        pass   
+                else:
+                    print("Your NIC not found.")
 
-                User_Name = input("Enter your username: ")  
-                Password_Input = input("Enter your password: ")  
-                  
-                admin = Admin_Details[NIC]  
-                if admin['User_Name'] == User_Name and admin['user_password'] == Password_Input:  
-                    print("Login successful!")  
-                else:  
-                    print("Incorrect username or password.")  
-                    continue  
+                
 
-                # ==================== Menu ========================
+                
+# ==================== Menu ====================
                 print()
                 while True:
                     print("=== Admin Menu ===")
@@ -160,7 +204,9 @@ def Admin():
                     if select == 1:  
                         Customer_Full_Name = str(input("Enter Customer Full Name:"))
 
-                        # ===== Customer NIC check =====
+
+
+# ==================== Customer NIC Check =====================
                         NIC = input("Enter Customer NIC Number:")
                         if not NIC_Customer(NIC):
                             continue
@@ -168,15 +214,18 @@ def Admin():
                         Address = input("Enter Your Address:")  
                         Age = int(input("Enter Your Age:"))
 
-                        # ===== Must Deposit amount(>1000) =====
-                        Initial_amount = int(input("Enter The Amount:RS."))
-                        if not inital_deposit(Initial_amount):
-                            continue
 
-                        # ===== Auto create Account Number ======
+                        
+# ====================== Must Deposit amount(>1000) ===================
+                        Initial_amount = int(input("Enter The Amount:RS."))
+                        inital_deposit(Initial_amount)
+                            
+
+
+# ==================== Auto create Account Number ====================
                         import random
                         def account_number():
-                            acc_num = random.randint(0, 99999999)
+                            acc_num = random.randint(00000000, 99999999)
                             if acc_num not in Customer_Details:
                                 print()
                                 print(f"Hello {Customer_Full_Name}. Your Account Number is {acc_num}")
@@ -185,27 +234,32 @@ def Admin():
                             return account_number()
 
                         acc_num = account_number()      
-                        
-                        Customer_Details[NIC] = {
-                            "Name": Customer_Full_Name,
-                            "NIC": NIC,
-                            "Address": Address,
-                            "Age": Age,
-                            "Account_Number": acc_num,
-                            "User_Password": User_Password,
-                            "Balance": Balance
-                        }
 
-                        # ========= Customer Details Save =============
+                        Customer_Details[NIC] = { "Name": Customer_Full_Name, "NIC": NIC, "Address": Address, "Age": Age, "Account_Number": acc_num, 
+                                                 "User_Name":Customer_User_Name, "User_Password": Customer_User_Password, "Balance": Balance }
+
+
+
+# ==================== Customer Details Save ====================
                         with open("Customer_Details.txt", "a") as Customer_file:
-                            Customer_file.write(f"{Customer_Full_Name} \t {NIC} \t {User_Password} \t {acc_num} \t {Address} \n")
+                            Customer_file.write(f"{Customer_Full_Name} \t {NIC} \t {User_Name} \t {User_Password} \t {acc_num} \t {Address} \t {Age} \n")
 
-                    # ================ Admin Check Customer Details ====================
+
+
+# ==================== Admin Check Customer Details ====================
                     elif select == 2:
-                        print(Customer_Details)
+                        pass
+                        """search = input("search:")
+                        if search == Customer_Details[NIC] or Customer_Details[NIC][Customer_Full_Name]:
+                            print(f"Full name: {Full_Name}")
+                            print(f"NIC: {NIC}")
+                            print(f"Address: {Address}")
+                            print(f"Age: {Age}")
+"""
 
                     elif select == 3:  
-                        print("Exiting the program. Thank you!")  
+                        print("Exiting The Program. Thank you!")
+                        print()  
                         break  
 
             elif select == 3:
@@ -214,9 +268,13 @@ def Admin():
         except ValueError:  
             print("Enter Number Only!")
 
+
+
 # =====================================================================================================================================================================================
 # =========================================================================   Customer System   =======================================================================================
 # =====================================================================================================================================================================================
+
+
 
 def Customer_System():
     try:
@@ -229,36 +287,36 @@ def Customer_System():
                 Full_Name = input("Enter Your Full Name:")  
 
                 NIC = input("Enter Your NIC Number:")  
-                if not NIC_Customer(NIC):
-                    continue
+                NIC_Customer(NIC)
+                
 
-                # ===== Create Customer User Name =====  
+# ===================== Create Customer User Name ====================  
                 print()  
-                Customer_User_Name = input("Create Your User Name:")  
-                if Customer_User_Name in Customer_Details:  
-                    print("User Name already exists. Try again")  
-                    continue
+                Customer_User_Name = input("Create Your User Name:") 
+                customer_user_name(Customer_User_Name) 
+                        
 
-                # ===== Create Customer User Password =====  
-                User_Password = input("Please Create Your 5 Digit Password:")  
-                if not Password(User_Password):
-                    continue
+
+# ==================== Create Customer User Password ====================  
+                Customer_User_Password = input("Please Create Your 5 Digit Password:")  
+                Customer_Password(Customer_User_Password)
 
                 print(f"{Full_Name} Your Customer Account Successful Create.")  
                 print()  
 
+
             elif choose == 2:  
-                User_Name = input("Enter Your User Name:")  
-                NIC = input("Enter Your NIC:")  
+                NIC = input("Enter Your NIC:")
+                User_Name = input("Enter Your User Name:")    
                 
-                if NIC not in Customer_Details or Customer_Details[NIC]["User_Name"] != User_Name:  
+                if Customer_Details[NIC]["User_Name"] not in User_Name:  
                     print("Please Enter Your Correct User name.")  
-                    continue
+                    
 
                 User_Password = input("Enter Your Password:")  
-                if Customer_Details[NIC]["User_Password"] != User_Password:  
+                if Customer_Details[NIC]["User_Password"] not in User_Password:  
                     print("Please Enter Your Correct Password.")  
-                    continue
+                    
 
                 while True:  
                     print("1.Check Balance")  
@@ -301,39 +359,51 @@ def Customer_System():
     except ValueError:  
         print("Enter Number Only! ")
 
+
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 1st Login ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Login_Admin_User = {"Admin": "12345"}
 Login_Customer_User = {"Customer": "12345"}
 
+
 # =============== Login Function ===============
 def Login():
-    Input_Login_User_Name = input("Enter The Login User Name: ")
-    Input_Login_User_Password = input("Enter The Login User Password: ")
+    while True:
+        Input_Login_User_Name = input("Enter The Login User Name: ")
+        Input_Login_User_Password = input("Enter The Login User Password: ")
 
-    if Input_Login_User_Name in Login_Admin_User:  
-        if Login_Admin_User[Input_Login_User_Name] == Input_Login_User_Password:  
-            print("Welcome Admin.")  
-            print()  
-            Admin()  
-            return True  
-        else:  
-            print("Please Try Again. Incorrect Password.")  
-            return False  
-          
-    elif Input_Login_User_Name in Login_Customer_User:  
-        if Login_Customer_User[Input_Login_User_Name] == Input_Login_User_Password:  
-            print("Welcome Customer.")  
-            print()  
-            Customer_System()  
-            return True  
-        else:  
-            print("Please Try Again. Incorrect Password.")  
-            return False  
-    else:  
-        print("Please Try Again. Incorrect User Name.")  
-        print()  
-        return False
+        """if Input_Login_User_Name in Login_Admin_User or Input_Login_User_Name in Login_Customer_User :       
+            if Login_Admin_User[Input_Login_User_Name] != Input_Login_User_Password and Login_Customer_User[Input_Login_User_Name] != Input_Login_User_Password:
+                print("Please Try Again. Incorrect User Name and User Password.")
+                """
 
-while True:
-    Login()
-    break
+        if Input_Login_User_Name in Login_Admin_User:  
+            if Login_Admin_User[Input_Login_User_Name] == Input_Login_User_Password:  
+                print("Welcome Admin.")  
+                print()  
+                Admin()  
+                return True 
+            else:  
+                print("Please Try Again. Incorrect User Password.")
+                print()  
+                 
+
+
+        elif Input_Login_User_Name in Login_Customer_User:  
+            if Login_Customer_User[Input_Login_User_Name] == Input_Login_User_Password:  
+                print("Welcome Customer.")  
+                print()  
+                Customer_System()  
+                return True  
+            else:  
+                print("Please Try Again. Incorrect User Password.") 
+                print() 
+
+        
+        else:  
+            print("Please Try Again. Incorrect User Name.")  
+            print()  
+            
+
+Login()
+
