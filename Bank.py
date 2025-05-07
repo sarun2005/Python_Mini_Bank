@@ -87,7 +87,7 @@ def inital_deposit(Initial_amount):
     else:  
         print("Your Amount Must be Over Rs.1000.")
         return False
-         
+
 
 
 
@@ -163,11 +163,11 @@ def Admin():
 
             if select == 1:  
                 Full_Name = input("Enter Your Full Name:")
-                
+
 # ==================== Admin NIC check Function ====================
                 NIC = input("Enter Your NIC Number:")
                 NIC_Admin(NIC)
-                    
+
                 Admin_Address = input("Enter Your Address:")
                 Phone_Number = input("Enter Your Phone Number:")
 
@@ -209,23 +209,23 @@ def Admin():
                 NIC = input("Please Enter your NIC:")
                 User_Name = input("Enter Your User Name:") 
                 User_Password = input("Enter Your Password:")   
-                
+
                 if NIC in Admin_Details:
                     if Admin_Details[NIC]["Admin_User_Name"] !=User_Name and Admin_Details[NIC]["User_Password"] != User_Password:  
                         print("Please Enter Your Correct User Name and User Password.")  
-                       
+
                 else:
                     print("Your NIC not found.")
-                    
 
-                            
+
+
 # ==================== Menu ====================
                 print()
                 while True:
                     print("=== Admin Menu ===")
                     print("1.Create Customer Account")
                     print("2.Customer Details")
-                    print("3. Update Customer Details)
+                    print("3. Update Customer Details")
                     print("4.Exit")
                     print()
 
@@ -245,11 +245,11 @@ def Admin():
                         Age = int(input("Enter Your Age:"))
 
 
-                        
+
 # ====================== Must Deposit amount(>1000) ===================
                         Initial_amount = int(input("Enter The Amount:RS."))
                         inital_deposit(Initial_amount)
-                            
+
 
 
 # ==================== Auto create Account Number ====================
@@ -279,55 +279,63 @@ def Admin():
 
 
 # ==================== Admin Check Customer Details ====================
-                    
+
                     elif select == 2:
-    view_nic = input("Enter Customer NIC to View Details: ")
-    if view_nic in Customer_Details:
-        customer = Customer_Details[view_nic]
-        print(f"\nCustomer Details:")
-        print(f"Full Name: {customer['Name']}")
-        print(f"NIC: {customer['NIC']}")
-        print(f"Address: {customer['Address']}")
-        print(f"Age: {customer['Age']}")
-        print(f"Account Number: {customer['Account_Number']}")
-        print(f"Balance: Rs.{customer['Balance']}\n")
-    else:
-        print("Customer NIC not found.\n")
+                        view_nic = input("Enter Customer NIC to View Details: ")
+                        if view_nic in Customer_Details:
+                            customer = Customer_Details[view_nic]
+                            print(f"\nCustomer Details:")
+                            print(f"Full Name: {customer['Name']}")
+                            print(f"NIC: {customer['NIC']}")
+                            print(f"Address: {customer['Address']}")
+                            print(f"Age: {customer['Age']}")
+                            print(f"Account Number: {customer['Account_Number']}")
+                            print(f"Balance: Rs.{customer['Balance']}\n")
+                        else:
+                            print("Customer NIC not found.\n")
 
 
-                    elif select == 3:  
+
+
+                    elif select == 3:
+                        update_nic = input("Enter Customer NIC to Update: ")
+                        if update_nic in Customer_Details:
+                            print("What would you like to update?")
+                            print("1. Address")
+                            print("2. Age")
+                            print("3. Name")
+        
+                            option = input("Select Option (1-3): ")
+
+                            if option == "1":
+                                new_address = input("Enter new Address: ")
+                                Customer_Details[update_nic]["Address"] = new_address
+                                print("Address updated successfully.")
+                                
+                                
+                            elif option == "2":
+                                new_age = input("Enter new Age: ")
+                                Customer_Details[update_nic]["Age"] = int(new_age)
+                                print("Age updated successfully.")
+                                
+                                
+                            elif option == "3":
+                                new_name = input("Enter new Full Name: ")
+                                Customer_Details[update_nic]["Name"] = new_name
+                                print("Name updated successfully.")
+        
+                            else:
+                                 print("Invalid option.")
+    
+                    else:
+                        print("Customer NIC not found.")
+
+
+
+                    if select == 4:  
                         print("Exiting The Program. Thank you!")
                         print()  
                         break  
-
-  
-
-                     elif select == 3:
-    update_nic = input("Enter Customer NIC to Update: ")
-    if update_nic in Customer_Details:
-        print("What would you like to update?")
-        print("1. Address")
-        print("2. Age")
-        print("3. Name")
-        option = input("Select Option (1-3): ")
-
-        if option == "1":
-            new_address = input("Enter new Address: ")
-            Customer_Details[update_nic]["Address"] = new_address
-            print("Address updated successfully.")
-        elif option == "2":
-            new_age = input("Enter new Age: ")
-            Customer_Details[update_nic]["Age"] = int(new_age)
-            print("Age updated successfully.")
-        elif option == "3":
-            new_name = input("Enter new Full Name: ")
-            Customer_Details[update_nic]["Name"] = new_name
-            print("Name updated successfully.")
-        else:
-            print("Invalid option.")
-    else:
-        print("Customer NIC not found.")
-
 
 
 
@@ -361,14 +369,14 @@ def Customer_System():
 
                 NIC = input("Enter Your NIC Number:")  
                 NIC_Customer(NIC)
-                
+
 
 
 # ===================== Create Customer User Name ====================  
                 print()  
                 Customer_User_Name = input("Create Your User Name:") 
                 customer_user_name(Customer_User_Name) 
-                        
+
 
 
 # ==================== Create Customer User Password ====================  
@@ -397,11 +405,11 @@ def Customer_System():
                 if NIC in Customer_Details:
                     if Customer_Details[NIC]["User_Name"] !=User_Name and Customer_Details[NIC]["User_Password"] != User_Password:  
                         print("Please Enter Your Correct User Name and User Password.")  
-                       
+
                 else:
                     print("Your NIC not found.")    
-                
-                
+
+
 
                 while True: 
                     print() 
@@ -486,7 +494,7 @@ def Login():
             else:  
                 print("Please Try Again. Incorrect User Password.")
                 print()  
-                 
+
 
 
         elif Input_Login_User_Name in Login_Customer_User:  
@@ -499,11 +507,10 @@ def Login():
                 print("Please Try Again. Incorrect User Password.") 
                 print() 
 
-        
+
         else:  
             print("Please Try Again. Incorrect User Name.")  
             print()  
-            
+
 
 Login()
-
