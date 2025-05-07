@@ -114,7 +114,31 @@ def Deposit_Money(Deposit_Amount):
     return True
 
 
+# ====== Amount Transfer=========
+def Transfer_Money(sender_nic):
+    if sender_nic not in Customer_Details:
+        print("Sender account not found.")
+        return
 
+    receiver_nic = input("Enter Receiver's NIC: ")
+    if receiver_nic not in Customer_Details:
+        print("Receiver account not found.")
+        return
+
+    amount = int(input("Enter Amount to Transfer: Rs. "))
+    if amount <= 0:
+        print("Amount should be greater than zero.")
+        return
+
+    if Customer_Details[sender_nic]["Balance"] >= amount:
+        # Transfer money
+        Customer_Details[sender_nic]["Balance"] -= amount
+        Customer_Details[receiver_nic]["Balance"] += amount
+
+        print(f"Transfer Successful! Rs.{amount} sent to {Customer_Details[receiver_nic]['Name']}")
+        print(f"Your Updated Balance: Rs.{Customer_Details[sender_nic]['Balance']}")
+    else:
+        print("Insufficient balance for transfer.")
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Sign up and Sign in Function +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -201,7 +225,8 @@ def Admin():
                     print("=== Admin Menu ===")
                     print("1.Create Customer Account")
                     print("2.Customer Details")
-                    print("3.Exit")
+                    print("3. Update Customer Details)
+                    print("4.Exit")
                     print()
 
                     select = int(input("Please Select The Number:"))  
@@ -254,15 +279,20 @@ def Admin():
 
 
 # ==================== Admin Check Customer Details ====================
+                    
                     elif select == 2:
-                        search = input("search:")
-                        if search == Customer_Details[NIC]:
-                            print(f"Full name: {Customer_Details["Name"]}")
-                            # print(f"NIC: {NIC}")
-                            # print(f"Address: {Address}")
-                            # print(f"Age: {Age}")
-
-
+    view_nic = input("Enter Customer NIC to View Details: ")
+    if view_nic in Customer_Details:
+        customer = Customer_Details[view_nic]
+        print(f"\nCustomer Details:")
+        print(f"Full Name: {customer['Name']}")
+        print(f"NIC: {customer['NIC']}")
+        print(f"Address: {customer['Address']}")
+        print(f"Age: {customer['Age']}")
+        print(f"Account Number: {customer['Account_Number']}")
+        print(f"Balance: Rs.{customer['Balance']}\n")
+    else:
+        print("Customer NIC not found.\n")
 
 
                     elif select == 3:  
@@ -270,10 +300,41 @@ def Admin():
                         print()  
                         break  
 
+  
+
+                     elif select == 3:
+    update_nic = input("Enter Customer NIC to Update: ")
+    if update_nic in Customer_Details:
+        print("What would you like to update?")
+        print("1. Address")
+        print("2. Age")
+        print("3. Name")
+        option = input("Select Option (1-3): ")
+
+        if option == "1":
+            new_address = input("Enter new Address: ")
+            Customer_Details[update_nic]["Address"] = new_address
+            print("Address updated successfully.")
+        elif option == "2":
+            new_age = input("Enter new Age: ")
+            Customer_Details[update_nic]["Age"] = int(new_age)
+            print("Age updated successfully.")
+        elif option == "3":
+            new_name = input("Enter new Full Name: ")
+            Customer_Details[update_nic]["Name"] = new_name
+            print("Name updated successfully.")
+        else:
+            print("Invalid option.")
+    else:
+        print("Customer NIC not found.")
 
 
-            elif select == 3:
-                break
+
+
+
+
+            elif select == 4:
+                exit()
 
 
 
@@ -375,7 +436,7 @@ def Customer_System():
 
 
                     elif choose == 4:  
-                        pass  
+                        Transfer_Money(sender_nic)
 
 
                     elif choose == 5:  
