@@ -260,7 +260,7 @@ def Admin():
                             print(f"Full name: {Customer_Details["Name"]}")
                             # print(f"NIC: {NIC}")
                             # print(f"Address: {Address}")
-                            # print(f"Age: {Age}")
+                            print(f"Age: {Age}")
 
 
 
