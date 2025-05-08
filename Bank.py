@@ -87,7 +87,7 @@ def inital_deposit(Initial_amount):
     else:  
         print("Your Amount Must be Over Rs.1000.")
         return False
-         
+
 
 
 
@@ -139,11 +139,11 @@ def Admin():
 
             if select == 1:  
                 Full_Name = input("Enter Your Full Name:")
-                
+
 # ==================== Admin NIC check Function ====================
                 NIC = input("Enter Your NIC Number:")
                 NIC_Admin(NIC)
-                    
+
                 Admin_Address = input("Enter Your Address:")
                 Phone_Number = input("Enter Your Phone Number:")
 
@@ -185,23 +185,24 @@ def Admin():
                 NIC = input("Please Enter your NIC:")
                 User_Name = input("Enter Your User Name:") 
                 User_Password = input("Enter Your Password:")   
-                
+
                 if NIC in Admin_Details:
                     if Admin_Details[NIC]["Admin_User_Name"] !=User_Name and Admin_Details[NIC]["User_Password"] != User_Password:  
                         print("Please Enter Your Correct User Name and User Password.")  
-                       
+
                 else:
                     print("Your NIC not found.")
-                    
 
-                            
+
+
 # ==================== Menu ====================
                 print()
                 while True:
                     print("=== Admin Menu ===")
                     print("1.Create Customer Account")
                     print("2.Customer Details")
-                    print("3.Exit")
+                    print("3. Update Customer Details")
+                    print("4.Exit")
                     print()
 
                     select = int(input("Please Select The Number:"))  
@@ -220,11 +221,11 @@ def Admin():
                         Age = int(input("Enter Your Age:"))
 
 
-                        
+
 # ====================== Must Deposit amount(>1000) ===================
                         Initial_amount = int(input("Enter The Amount:RS."))
                         inital_deposit(Initial_amount)
-                            
+
 
 
 # ==================== Auto create Account Number ====================
@@ -249,32 +250,40 @@ def Admin():
 
 
 
-                        Customer_Details[NIC] = { "Name": Customer_Full_Name, "NIC": NIC, "Address": Address, "Age": Age, "Account_Number": acc_num, "Balance": Balance}
-
+                        Customer_Details[NIC] = { "Name": Customer_Full_Name, "NIC": NIC, "Address": Address, "Age": Age, "Account_Number": acc_num,}
+                        Customer_Details[acc_num] = {"Balance": Balance }
 
 
 # ==================== Admin Check Customer Details ====================
+
                     elif select == 2:
-                        search = input("search:")
-                        if search == Customer_Details[NIC]:
-                            print(f"Full name: {Customer_Details["Name"]}")
-                            # print(f"NIC: {NIC}")
-                            # print(f"Address: {Address}")
-                            print(f"Age: {Age}")
+                        View_NIC = input("Enter Customer NIC to View Details: ")
+                        if View_NIC in Customer_Details:
+                            customer = Customer_Details[View_NIC]
+                            print()
+                            print(f"==== {View_NIC} Customer Details ====")
+                            print(f"Full Name: {customer['Name']}")
+                            print(f"Address: {customer['Address']}")
+                            print(f"Age: {customer['Age']}")
+                            print(f"Account Number: {customer['Account_Number']}")
+                            print(f"Balance: Rs.{customer['Balance']}")
+                            print()
+                        else:
+                            print("Customer NIC not Found.")
 
 
+                    elif select == 3:
+                       pass
 
 
-                    elif select == 3:  
+                    if select == 4:  
                         print("Exiting The Program. Thank you!")
                         print()  
                         break  
 
 
-
             elif select == 3:
-                break
-
+                exit()
 
 
         except ValueError:  
@@ -300,14 +309,14 @@ def Customer_System():
 
                 NIC = input("Enter Your NIC Number:")  
                 NIC_Customer(NIC)
-                
+
 
 
 # ===================== Create Customer User Name ====================  
                 print()  
                 Customer_User_Name = input("Create Your User Name:") 
                 customer_user_name(Customer_User_Name) 
-                        
+
 
 
 # ==================== Create Customer User Password ====================  
@@ -317,7 +326,7 @@ def Customer_System():
                 print(f"{Full_Name} Your Customer Account Successful Create.")  
                 print()  
 
-                Customer_Details[NIC] = {"NIC": NIC, "User_Name":Customer_User_Name, "User_Password": Customer_User_Password, "Balance": Balance }
+                Customer_Details[NIC] = {"NIC": NIC, "User_Name":Customer_User_Name, "User_Password": Customer_User_Password}
 
 
 
@@ -336,11 +345,11 @@ def Customer_System():
                 if NIC in Customer_Details:
                     if Customer_Details[NIC]["User_Name"] !=User_Name and Customer_Details[NIC]["User_Password"] != User_Password:  
                         print("Please Enter Your Correct User Name and User Password.")  
-                       
+
                 else:
                     print("Your NIC not found.")    
-                
-                
+
+
 
                 while True: 
                     print() 
@@ -357,12 +366,10 @@ def Customer_System():
 
 
                     if choose == 1: 
-                        def Balance():
-                            global Balance 
-                            print(f"Your Balance is:Rs.{Balance}")  
-                            print() 
-                        Balance() 
-
+                        acc_num = int(input("Enter Your Account Number:"))
+                        print(f"Your Balance is:Rs.{Customer_Details[acc_num]["Balance"]}")  
+                        print() 
+                        
 
                     elif choose == 2:   
                         Withdraw_Amount = int(input("Enter Your Amount:Rs."))  
@@ -374,9 +381,8 @@ def Customer_System():
                         Deposit_Money(Deposit_Amount)  
 
 
-                    elif choose == 4:  
-                        pass  
-
+                    elif choose == 4:
+                        pass
 
                     elif choose == 5:  
                         Input_NIC = input("Enter Your NIC:")  
@@ -411,10 +417,6 @@ def Login():
         Input_Login_User_Name = input("Enter The Login User Name: ")
         Input_Login_User_Password = input("Enter The Login User Password: ")
 
-        """ if Input_Login_User_Name in Login_Admin_User or Input_Login_User_Name in Login_Customer_User :       
-            if Login_Admin_User[Input_Login_User_Name] != Input_Login_User_Password and Login_Customer_User[Input_Login_User_Name] != Input_Login_User_Password:
-                print("Please Try Again. Incorrect User Name and User Password.")
-                """
 
         if Input_Login_User_Name in Login_Admin_User:  
             if Login_Admin_User[Input_Login_User_Name] == Input_Login_User_Password:  
@@ -425,7 +427,7 @@ def Login():
             else:  
                 print("Please Try Again. Incorrect User Password.")
                 print()  
-                 
+
 
 
         elif Input_Login_User_Name in Login_Customer_User:  
@@ -438,11 +440,10 @@ def Login():
                 print("Please Try Again. Incorrect User Password.") 
                 print() 
 
-        
+
         else:  
             print("Please Try Again. Incorrect User Name.")  
             print()  
-            
+
 
 Login()
-
