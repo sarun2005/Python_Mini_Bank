@@ -7,18 +7,21 @@ Balance = 0
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Admin Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================== Admin NIC check Function ====================
 def NIC_Admin(NIC):
-        if len(NIC) == 12 and NIC.isdigit():
-            if NIC not in Admin_Details:
-                return True
+        while True:
+            if len(NIC) == 12 and NIC.isdigit():
+                if NIC not in Admin_Details:
+                    return True
+                else:
+                    print("This NIC is already registered.")
+                    return False
+                    exit()
+                     
             else:
-                print("This NIC is already registered.")
+                print("Please Enter a Valid 12-Digit NIC number.")
                 return False
-        else:
-            print("Please enter a valid 12-digit NIC number.")
-            return False
-
-
-
+    
+    
+                
 # ==================== Admin User Name Create Function ====================
 def admin_user_name(Admin_User_Name):
     if Admin_User_Name not in Admin_Details:
@@ -34,7 +37,7 @@ def Password(User_Password):
     if len(User_Password) == 5 and User_Password.isdigit():
         return True
     else:
-        print("Please Create Your 5 Digit Password")
+        print("Please Enter a Valid 5-Digit Password Number.")
         return False
 
 
@@ -114,6 +117,39 @@ def Deposit_Money(Deposit_Amount):
     return True
 
 
+#  ==================== Amount Transfer Function ====================
+def Transfer_Money():
+    Sender_NIC = input("Please Enter Your NIC:").strip() 
+    Sender_Account_Number = int(input("Please Enter Your Account Number:")).strip()
+    if Sender_NIC not in Customer_Details and Sender_Account_Number not in Customer_Details :
+        print("Sender Account not Found.")
+        return
+
+
+
+    Receiver_NIC = input("Please Enter Receiver NIC:").strip()
+    Receiver_Account_Number =  int(input("Please Enter Receiver Account Number:")).strip()
+    if Receiver_NIC not in Customer_Details and Receiver_Account_Number not in Customer_Details :
+        print("Receiver Account not Found.")
+        return
+
+
+
+    amount = int(input("Enter Amount to Transfer: Rs. "))
+
+    if amount >= 100 :
+        if Customer_Details[Sender_NIC]["Balance"] >= amount:
+            Customer_Details[Sender_NIC]["Balance"] -= amount
+            Customer_Details[Receiver_NIC ]["Balance"] += amount
+
+            print(f"Transfer Successful! Rs.{amount} sent to {Customer_Details[Receiver_NIC ]['Name']}")
+            print(f"Your Updated Balance: Rs.{Customer_Details[Sender_NIC]['Balance']}")
+        else:
+            print("Your Amount above your balance.")
+    else:
+        print("Amount should be above 100.")
+        return
+
 
 
 
@@ -141,8 +177,10 @@ def Admin():
                 Full_Name = input("Enter Your Full Name:")
 
 # ==================== Admin NIC check Function ====================
-                NIC = input("Enter Your NIC Number:")
+                NIC = input("Enter Your NIC Number:").strip()
                 NIC_Admin(NIC)
+                
+                
 
                 Admin_Address = input("Enter Your Address:")
                 Phone_Number = input("Enter Your Phone Number:")
@@ -156,8 +194,8 @@ def Admin():
 
 # ==================== Password Create ====================
                 User_Password = input("Please Create Your 5 Digit Password:")
-                if not Password(User_Password):
-                    continue
+                Password(User_Password)
+            
 
                 print(f"{Full_Name} Your Admin Account Successful Create.")  
                 print()  
@@ -182,7 +220,7 @@ def Admin():
 
 #==================== Admin User_Name and Password Check ====================
             elif select == 2:
-                NIC = input("Please Enter your NIC:")
+                NIC = input("Please Enter your NIC:").strip()
                 User_Name = input("Enter Your User Name:") 
                 User_Password = input("Enter Your Password:")   
 
@@ -213,9 +251,9 @@ def Admin():
 
 
 # ==================== Customer NIC Check =====================
-                        NIC = input("Enter Customer NIC Number:")
-                        if not NIC_Customer(NIC):
-                            continue
+                        NIC = input("Enter Customer NIC Number:").strip()
+                        NIC_Customer(NIC)
+                    
 
                         Address = input("Enter Your Address:")  
                         Age = int(input("Enter Your Age:"))
@@ -250,23 +288,21 @@ def Admin():
 
 
 
-                        Customer_Details[NIC] = { "Name": Customer_Full_Name, "NIC": NIC, "Address": Address, "Age": Age, "Account_Number": acc_num,}
-                        Customer_Details[acc_num] = {"Balance": Balance }
-
+                        Customer_Details[NIC] = { "Name": Customer_Full_Name, "NIC":NIC, "Address": Address, "Age": Age, "Account_Number":acc_num, "Balance": Balance }
+                       
 
 # ==================== Admin Check Customer Details ====================
 
                     elif select == 2:
-                        View_NIC = input("Enter Customer NIC to View Details: ")
-                        if View_NIC in Customer_Details:
-                            customer = Customer_Details[View_NIC]
+                        NIC = input("Enter Customer NIC to View Details:").strip()
+                        if NIC in Customer_Details:
                             print()
-                            print(f"==== {View_NIC} Customer Details ====")
-                            print(f"Full Name: {customer['Name']}")
-                            print(f"Address: {customer['Address']}")
-                            print(f"Age: {customer['Age']}")
-                            print(f"Account Number: {customer['Account_Number']}")
-                            print(f"Balance: Rs.{customer['Balance']}")
+                            print(f"==== {NIC} Customer Details ====")
+                            print(f"Full Name: {Customer_Details[NIC]['Name']}")
+                            print(f"Address: {Customer_Details[NIC]['Address']}")
+                            print(f"Age: {Customer_Details[NIC]['Age']}")
+                            print(f"Account Number: {Customer_Details[NIC]['Account_Number']}")
+                            print(f"Balance: Rs.{Customer_Details[NIC]['Balance']}")
                             print()
                         else:
                             print("Customer NIC not Found.")
@@ -288,6 +324,7 @@ def Admin():
 
         except ValueError:  
             print("Enter Number Only!")
+
 
 
 
@@ -366,8 +403,8 @@ def Customer_System():
 
 
                     if choose == 1: 
-                        acc_num = int(input("Enter Your Account Number:"))
-                        print(f"Your Balance is:Rs.{Customer_Details[acc_num]["Balance"]}")  
+                        acc_num = int(input("Enter Your Account Number:")).strip()
+                        print(f"Your Balance is:Rs.{Balance}")  
                         print() 
                         
 
@@ -382,24 +419,20 @@ def Customer_System():
 
 
                     elif choose == 4:
-                        pass
+                        Transfer_Money()
 
                     elif choose == 5:  
-                        Input_NIC = input("Enter Your NIC:")  
+                        Input_NIC = input("Enter Your NIC:").strip()  
                         if Input_NIC in Customer_Details:  
                             print(Customer_Details[Input_NIC])  
                         else:  
                             print("Please Enter Your Correct NIC Number.")  
 
-
                     elif choose == 6:  
                         break  
 
-
             elif choose == 3:
                 break
-
-
 
     except ValueError:  
         print("Enter Number Only! ")
@@ -415,7 +448,7 @@ Login_Customer_User = {"Customer": "12345"}
 def Login():
     while True:
         Input_Login_User_Name = input("Enter The Login User Name: ")
-        Input_Login_User_Password = input("Enter The Login User Password: ")
+        Input_Login_User_Password = input("Enter The Login User Password: ").strip()
 
 
         if Input_Login_User_Name in Login_Admin_User:  
