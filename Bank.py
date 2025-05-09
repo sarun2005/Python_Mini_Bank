@@ -4,22 +4,22 @@ Balance = 0
 
 
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Admin Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Admin Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================== Admin NIC check Function ====================
 def NIC_Admin(NIC):
-        while True:
-            if len(NIC) == 12 and NIC.isdigit():
-                if NIC not in Admin_Details:
-                    return True
-                else:
-                    print("This NIC is already registered.")
-                    return False
-                    exit()
-                     
+    for i  in range(3):
+        if len(NIC) == 12 and NIC.isdigit():
+            if NIC not in Admin_Details:
+                return True
             else:
-                print("Please Enter a Valid 12-Digit NIC number.")
+                print("This NIC is already registered.")
                 return False
-    
+                    
+        else:
+            print("Please Enter a Valid 12-Digit NIC number.")
+            print()
+        return False
+
     
                 
 # ==================== Admin User Name Create Function ====================
@@ -39,12 +39,24 @@ def Password(User_Password):
     else:
         print("Please Enter a Valid 5-Digit Password Number.")
         return False
+    
+
+
+# ==================== Phone Number Function ====================
+def phone_number(Phone_Number):
+    for i  in range(3):
+        if len(Phone_Number) == 10 and Phone_Number.isdigit():
+            return True
+        else:
+            print("Please Enter a Valid 10-Digit Phone Number.")
+            print()     
+    return False
+    
+    
 
 
 
-
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Customer Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Customer Functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================== Customer NIC check Function ====================
 def NIC_Customer(NIC):
     if len(NIC) == 12 and NIC.isdigit():
@@ -55,6 +67,19 @@ def NIC_Customer(NIC):
     else:
         print("Please enter a valid 12-digit NIC number.")
         return False
+    
+
+
+# ==================== Phone Number Function ====================
+def customer_phone_number(Customer_Phone_Number):
+    for i  in range(3):
+        if len(Customer_Phone_Number) == 10 and Customer_Phone_Number.isdigit():
+            return True
+        else:
+            print("Please Enter a Valid 10-Digit Phone Number.")
+            print()     
+    return False
+    
 
 
 
@@ -71,7 +96,6 @@ def customer_user_name(Customer_User_Name):
 
 # ==================== Admin User Password Create Function ====================
 def Customer_Password(Customer_User_Password):
-    global Customer_Details
     if len(Customer_User_Password) == 5 and Customer_User_Password.isdigit():
         return True
     else:
@@ -121,7 +145,7 @@ def Deposit_Money(Deposit_Amount):
 def Transfer_Money():
     Sender_NIC = input("Please Enter Your NIC:").strip() 
     Sender_Account_Number = int(input("Please Enter Your Account Number:")).strip()
-    if Sender_NIC not in Customer_Details and Sender_Account_Number not in Customer_Details :
+    if Sender_NIC not in Customer_Details and Customer_Details[Sender_NIC]["Account_Number"] != Sender_Account_Number  :
         print("Sender Account not Found.")
         return
 
@@ -129,7 +153,7 @@ def Transfer_Money():
 
     Receiver_NIC = input("Please Enter Receiver NIC:").strip()
     Receiver_Account_Number =  int(input("Please Enter Receiver Account Number:")).strip()
-    if Receiver_NIC not in Customer_Details and Receiver_Account_Number not in Customer_Details :
+    if Receiver_NIC not in Customer_Details and Customer_Details[Receiver_NIC]["Account_Number"] != Receiver_Account_Number :
         print("Receiver Account not Found.")
         return
 
@@ -178,12 +202,22 @@ def Admin():
 
 # ==================== Admin NIC check Function ====================
                 NIC = input("Enter Your NIC Number:").strip()
-                NIC_Admin(NIC)
-                
+                if NIC_Admin(NIC) == False:
+                    print("Too Many Invalid Attampts. Exiting Programe.....")
+                    break
                 
 
                 Admin_Address = input("Enter Your Address:")
+
+
+
+# ==================== Phone Number  ====================
                 Phone_Number = input("Enter Your Phone Number:")
+                if phone_number(Phone_Number) == False:
+                    print("Too Many Invalid Attampts. Exiting Programe.....")
+                    break
+
+
 
 # ==================== Admin User Name Create====================
                 print()
@@ -247,12 +281,18 @@ def Admin():
 
                     if select == 1:  
                         Customer_Full_Name = str(input("Enter Customer Full Name:"))
+                        
+
+# ==================== Phone Number  ====================
+                        Customer_Phone_Number = input("Enter Your Phone Number:")
+                        if customer_phone_number(Customer_Phone_Number) == False:
+                            print("Too Many Invalid Attampts. Exiting Programe.....")
+                            break
 
 
 
 # ==================== Customer NIC Check =====================
                         NIC = input("Enter Customer NIC Number:").strip()
-                        NIC_Customer(NIC)
                     
 
                         Address = input("Enter Your Address:")  
@@ -284,11 +324,11 @@ def Admin():
 
 # ==================== Customer Details Save ====================
                         with open("Customer_Details.txt", "a") as Customer_file:
-                            Customer_file.write(f"{Customer_Full_Name} |\t {NIC}  |\t {acc_num} |\t {Address} |\t {Age} |\t {Balance}\n")
+                            Customer_file.write(f"{Customer_Full_Name} |\t {NIC}  |\t {acc_num} |\t {Address} |\t {Age} |\t {Balance} |\t {Customer_Phone_Number} \n")
 
 
 
-                        Customer_Details[NIC] = { "Name": Customer_Full_Name, "NIC":NIC, "Address": Address, "Age": Age, "Account_Number":acc_num, "Balance": Balance }
+                        Customer_Details[NIC] = { "Name": Customer_Full_Name, "NIC":NIC, "Address": Address, "Age": Age, "Account_Number":acc_num, "Phone_Number":Customer_Phone_Number,  "Balance": Balance }
                        
 
 # ==================== Admin Check Customer Details ====================
@@ -313,12 +353,13 @@ def Admin():
 
 
                     if select == 4:  
-                        print("Exiting The Program. Thank you!")
+                        print("Thank you!. Exiting Programe...... ")
                         print()  
                         break  
 
 
             elif select == 3:
+                print("Thank you!. Exiting Programe...... ")
                 exit()
 
 
@@ -395,7 +436,8 @@ def Customer_System():
                     print("3.Deposit Money")  
                     print("4.Transfer Money")  
                     print("5.View Accounts")  
-                    print("6.Exit")  
+                    print("6.Exit") 
+                    print() 
 
 
                     choose = int(input("Please Select The Number:"))  
@@ -403,7 +445,6 @@ def Customer_System():
 
 
                     if choose == 1: 
-                        acc_num = int(input("Enter Your Account Number:")).strip()
                         print(f"Your Balance is:Rs.{Balance}")  
                         print() 
                         
